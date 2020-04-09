@@ -16,6 +16,7 @@ RUN npm run tsc
 
 FROM BASE
 
+WORKDIR /app
 COPY package-lock.json .
 COPY package.json .
 COPY --from=deps node_modules node_modules

@@ -1,9 +1,10 @@
 Please create a configMap with the following name {{ .Values.config }} and following values:
 config.yaml: |
-   give: "role id"
-   check:
-      - "role 1"
-      - "role 2"
+   roles:
+      give: "role id"
+      check:
+        - "role 1"
+        - "role 2"
 
 Please create a secret with the following name {{ .Values.secret }} and following values:
 token: "Discord Bot Token maps to TOKEN env variable"

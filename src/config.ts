@@ -13,6 +13,7 @@ export interface Config {
 
 
 function loadRoles(fpath: string): Roles {
+    console.log(`Loading roles from: ${fpath}`);
     let raw = yaml.safeLoad(fs.readFileSync(fpath, 'utf8'));
     if (!raw.roles) process.exit(1);
 
