@@ -1,6 +1,6 @@
 apiVersion: v2
-name: backofthemap
-description: A Helm chart for Kubernetes
+name: backofthemap-bot
+description: Deploys the back of the map discord bot
 
 # A chart can be either an 'application' or a 'library' chart.
 #
