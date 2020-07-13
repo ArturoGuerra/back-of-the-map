@@ -1,5 +1,5 @@
 import { LoadConfig, Config, Roles } from './config';
-import { Client, GuildMember, GuildMemberRoleManager, Role } from 'discord.js';
+import { Client, GuildMember, GuildMemberRoleManager, Guild } from 'discord.js';
 import { art } from "./art";
 
 /*
@@ -8,15 +8,13 @@ Loads config and creates bot Client instance
 const config: Config = LoadConfig();
 const bot: Client = new Client();
 
-
 /*
-Gives/Removes roles based on previous roles
+Assigns or removes role based on current roles
 */
-async function GuildMemberUpdate(before: GuildMember, after: GuildMember) {
-    const afterRoles: GuildMemberRoleManager = after.roles;
+async function RoleHandler(member: GuildMember) {
+    const afterRoles: GuildMemberRoleManager = member.roles;
+    const userString: string = `${member.user.username}#${member.user.discriminator}-${member.user.id}`;
     const subRoles: Roles = config.Roles;
-    const userString: string = `${after.user.username}#${after.user.discriminator}-${after.user.id}`;
-
     const hasGive: boolean = afterRoles.cache.some(i => i.id == subRoles.give);
     let aftercheck: boolean = subRoles.check.some(id => {
         return afterRoles.cache.some(i => id == i.id);
@@ -31,17 +29,40 @@ async function GuildMemberUpdate(before: GuildMember, after: GuildMember) {
     if (giveRole) {
         try {
             console.log(`Giving Subrole from ${userString}`);
-            await after.roles.add(subRoles.give);
+            await member.roles.add(subRoles.give);
         } catch(e) {
             console.error(`Error adding role: ${e}`);
         }
     } else if (takeRole) {
         try {
             console.log(`Removing Subrole to ${userString}`);
-            await after.roles.remove(subRoles.give);
+            await member.roles.remove(subRoles.give);
         } catch(e) {
             console.error(`Error removing role: ${e}`);
         }
+    }
+
+}
+
+/*
+Gives/Removes roles when the bot gets the on_ready event from discord
+*/
+async function InitialRoles() {
+    let guild: Guild = bot.guilds.cache.get(config.Guild)
+    if (guild == null) process.exit(1);
+
+    guild.members.cache.forEach(RoleHandler);
+}
+
+
+/*
+Gives/Removes roles based on previous roles
+*/
+async function GuildMemberUpdate(_: GuildMember, after: GuildMember) {
+    try {
+       await RoleHandler(after);
+    } catch (e) {
+        console.error(e);
     }
 };
 
@@ -49,9 +70,15 @@ async function GuildMemberUpdate(before: GuildMember, after: GuildMember) {
 /*
 Registers the event and start the bot
 */
-bot.on("ready", () => {
+bot.on("ready", async () => {
     console.log(art);
     console.log(config.Roles);
+
+    try {
+        await InitialRoles();
+    } catch(e) {
+        console.error("Error running initial role updater");
+    }
 });
 bot.on("guildMemberUpdate", GuildMemberUpdate);
 bot.login(config.Token);

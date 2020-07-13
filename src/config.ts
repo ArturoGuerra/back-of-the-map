@@ -9,6 +9,7 @@ export interface Roles {
 export interface Config {
     Token: string
     Roles: Roles
+    Guild: string
 }
 
 
@@ -24,13 +25,15 @@ function loadRoles(fpath: string): Roles {
 
 export function LoadConfig(): Config {
     let token: string = process.env.TOKEN || process.exit(1);
+    let guild: string = process.env.GUILD_ID || process.exit(1);
     let cfgPath: string = process.env.CFG_PATH || "./config.yaml"
 
     let roles: Roles = loadRoles(cfgPath);
 
     let c: Config = {
        Token: token,
-       Roles: roles
+       Roles: roles,
+       Guild: guild,
     }
 
     return c;
