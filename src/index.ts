@@ -28,20 +28,19 @@ async function RoleHandler(member: GuildMember) {
 
     if (giveRole) {
         try {
-            console.log(`Giving Subrole from ${userString}`);
+            console.log(`Giving Subrole to ${userString}`);
             await member.roles.add(subRoles.give);
         } catch(e) {
             console.error(`Error adding role: ${e}`);
         }
     } else if (takeRole) {
         try {
-            console.log(`Removing Subrole to ${userString}`);
+            console.log(`Removing Subrole from ${userString}`);
             await member.roles.remove(subRoles.give);
         } catch(e) {
             console.error(`Error removing role: ${e}`);
         }
     }
-
 }
 
 /*
@@ -76,6 +75,7 @@ bot.on("ready", async () => {
 
     try {
         await InitialRoles();
+        console.log("Done updating roles");
     } catch(e) {
         console.error("Error running initial role updater");
     }
