@@ -1,4 +1,2 @@
-dist/*
-dist
+bin/*
 config.yaml
-node_modules

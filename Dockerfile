@@ -1,25 +1,12 @@
-FROM node:13-alpine AS BASE
+FROM golang:alpine AS builder 
 
-
-FROM BASE as deps
-
-COPY package-lock.json .
-COPY package.json .
-RUN npm install
-
-FROM BASE as builder
-
-COPY --from=deps node_modules node_modules
+WORKDIR /build
 COPY . .
-RUN npm install typescript -g
-RUN npm run tsc
+RUN apk add --update make
+RUN make build
 
-FROM BASE
-
+FROM alpine:latest
 WORKDIR /app
-COPY package-lock.json .
-COPY package.json .
-COPY --from=deps node_modules node_modules
-COPY --from=builder dist dist
+COPY --from=builder /build/rolewatcher /app
 
-CMD ["npm", "start"]
+CMD ["./rolewatcher"]
