@@ -15,15 +15,17 @@ type (
 
 	// ReactionRole stores information for reaction roles
 	ReactionRole struct {
-		Emoji string `yaml:"emoji"`
-		Role  string `yaml:"role"`
+		Emoji   string `yaml:"emoji"`
+		Role    string `yaml:"role"`
+		Message string `yaml:"message"`
+		Name    string `yaml:"name"`
 	}
 
 	// Config holds all configuration information
 	Config struct {
-		ReactionRoles map[string][]*ReactionRole `yaml:"reaction_roles"`
-		Roles         []*Role                    `yaml:"roles"`
-		GuildID       string                     `yaml:"guild_id"`
+		ReactionRoles []*ReactionRole `yaml:"reaction_roles"`
+		Roles         []*Role         `yaml:"roles"`
+		GuildID       string          `yaml:"guild_id"`
 	}
 )
 

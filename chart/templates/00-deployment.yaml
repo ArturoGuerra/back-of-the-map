@@ -21,13 +21,6 @@ spec:
                 - name: config-volume
                   mountPath: /config
             env:
-              - name: CFG_PATH
-                value: "/config/config.yaml"
-              - name: GUILD_ID
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ .Values.secret }}
-                    key: guild_id
               - name: TOKEN
                 valueFrom:
                   secretKeyRef:

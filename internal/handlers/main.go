@@ -18,6 +18,7 @@ type (
 		ReactionRolesAdd(*discordgo.Session, *discordgo.MessageReactionAdd)
 		ReactionRolesRemove(*discordgo.Session, *discordgo.MessageReactionRemove)
 		RoleWatcher(*discordgo.Session, *discordgo.GuildMemberUpdate)
+		MemberChunks(*discordgo.Session, *discordgo.GuildMembersChunk)
 	}
 )
 

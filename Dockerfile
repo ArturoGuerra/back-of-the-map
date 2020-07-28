@@ -7,6 +7,6 @@ RUN make build
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /build/rolewatcher /app
+COPY --from=builder /build/bin/rolewatcher /app
 
 CMD ["./rolewatcher"]

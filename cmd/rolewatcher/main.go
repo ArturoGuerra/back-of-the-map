@@ -28,6 +28,8 @@ func main() {
 		return
 	}
 
+	log.Infof("Loaded config %v", cfg)
+
 	token := os.Getenv("TOKEN")
 	if len(token) == 0 {
 		log.Error("Missing token")
@@ -47,11 +49,15 @@ func main() {
 	}
 
 	dgo.AddHandler(h.OnReady)
-	//dgo.AddHandler(h.ReactionRolesAdd)
-	//dgo.AddHandler(h.ReactionRolesRemove)
+	dgo.AddHandler(h.ReactionRolesAdd)
+	dgo.AddHandler(h.ReactionRolesRemove)
 	dgo.AddHandler(h.RoleWatcher)
+	dgo.AddHandler(h.MemberChunks)
 
-	if err = dgo.Open(); err != nil {
+	dgo.Identify.Intents = discordgo.MakeIntent(discordgo.IntentsAll)
+
+	err = dgo.Open()
+	if err != nil {
 		log.Error(err)
 		return
 	}
