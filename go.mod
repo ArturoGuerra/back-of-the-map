@@ -7,6 +7,6 @@ require (
 	github.com/bwmarrin/discordgo v0.22.0
 	github.com/onrik/logrus v0.7.0 // indirect
 	github.com/sirupsen/logrus v1.6.0
-	github.com/tidwall/gjson v1.6.0 // indirect
+	github.com/tidwall/gjson v1.9.3 // indirect
 	gopkg.in/yaml.v2 v2.3.0
 )
